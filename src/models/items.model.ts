@@ -1,0 +1,42 @@
+import { Schema, Types, model, Model } from "mongoose";
+import { Car } from "../interfaces";
+
+const ItemSchema = new Schema<Car>(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String,
+      required: true,
+    },
+    gas: {
+      type: String,
+      enum: ["gasoline", "electric"],
+      required: true,
+    },
+    year: {
+      type: Number,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+    // Esto crea una versión por datos
+    versionKey: false,
+  }
+);
+
+// Recibe el nombre de la tabla en la BD y el schema
+export const ItemModel = model("items", ItemSchema);
+
+// export default ItemModel;

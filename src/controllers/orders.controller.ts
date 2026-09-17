@@ -3,14 +3,14 @@ import { handleHttpError } from "../utils";
 import { TokenDataRequest } from "../interfaces";
 
 /**
- * Lista todos los Orders
+ * Lists all Orders
  * @param req
  * @param res
  */
 export const getOrders = (req: TokenDataRequest, res: Response) => {
   try {
     res.send({
-      message: "Solo lo ven personas con una sesión JWT activa",
+      message: "Only visible to users with an active JWT session",
       user: req.user,
     });
   } catch (error) {

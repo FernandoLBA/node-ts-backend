@@ -1,26 +1,26 @@
 import { Request } from "express";
 import multer, { diskStorage } from "multer";
 
-// process.cwd() trae la ruta de la raíz y le anexa storage, donde se almacenarán los archivos
+// process.cwd() gets the root path and appends storage, where files will be stored
 const PATH_STORAGE = `${process.cwd()}/storage`;
 
-// Creamos un archivo que contiene la data de almacenamiento local
+// Creates an object that holds the local storage config
 const storage = diskStorage({
-  // enviamos los datos del destino
+  // sends the destination data
   destination(req: Request, file: Express.Multer.File, cb: any) {
-    // recibe un error y una ruta de almacenamiento
+    // receives an error and a storage path
     cb(null, PATH_STORAGE);
   },
-  // enviamos los datos del archivo
+  // sends the file data
   filename: (req: Request, file: Express.Multer.File, cb: any) => {
-    // le remueve la extensión al archivo ejemplo fernando.pdf, guarda el .pdf
+    // strips the extension off the file, e.g. fernando.pdf keeps the .pdf
     const ext = file.originalname.split(".").pop();
-    // genera un nombre aleatorio, asignando la palabra image-numeroaleatorio.extension
+    // generates a random name, using the word image-randomnumber.extension
     const fileNameRandom = `image-${Date.now()}.${ext}`;
-    // envía un error y el nombre del archivo
+    // sends an error and the file name
     cb(null, fileNameRandom);
   },
 });
 
-// exportamos multerMiddleware la cual guarda lo que retorna la función multer con los datos de storage
+// exports multerMiddleware, which holds what the multer function returns with the storage config
 export const multerMiddleware = multer({ storage });

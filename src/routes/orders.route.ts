@@ -5,7 +5,7 @@ import { sessionMiddleware } from "../middlewares";
 const router = Router();
 
 /**
- * Usa el controlador Orders.ts
+ * Uses the Orders.ts controller
  */
 router.get("/", sessionMiddleware, getOrders);
 

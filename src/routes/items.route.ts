@@ -4,7 +4,7 @@ import { createItem, deleteItem, getItem, getItems, updateItem } from "../contro
 const router = Router();
 
 /**
- * Usa el controlador getItems
+ * Uses the getItems controller
  */
 router.get("/", getItems);
 router.get("/:id", getItem);

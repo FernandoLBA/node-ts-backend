@@ -3,7 +3,7 @@ import { sign, verify } from "jsonwebtoken";
 const JWT_SECRET = <string>process.env.JWT_SECRET;
 
 /**
- * Crea un token firmado
+ * Creates a signed token
  * @param user
  */
 export const tokenSignedGenerator = (email: string) => {
@@ -17,7 +17,7 @@ export const tokenSignedGenerator = (email: string) => {
 };
 
 /**
- * Verifica que el token tenga la firma
+ * Verifies that the token has a valid signature
  * @param tokenJwt
  * @returns
  */

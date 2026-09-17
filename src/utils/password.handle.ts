@@ -1,7 +1,7 @@
 import { hash, compare } from "bcryptjs";
 
 /**
- * Encripta la contraseña
+ * Encrypts the password
  * @param password
  * @returns
  */
@@ -12,7 +12,7 @@ export const encryptPassword = async (password: string) => {
 };
 
 /**
- * Compara si las contraseñas coinciden
+ * Compares whether the passwords match
  * @param password
  * @param hashedPassword
  * @returns

@@ -12,7 +12,7 @@ export const registerUser = async ({ body }: Request, res: Response) => {
     const response = await registerUserService(body);
 
     res.send({
-      message: typeof response === "string" ? response : "Usuario registrado",
+      message: typeof response === "string" ? response : "User registered",
       data: typeof response === "string" ? {} : response,
     });
   } catch (error) {
@@ -30,7 +30,7 @@ export const loginUser = async ({ body }: Request, res: Response) => {
     let response = await loginUserService(body);
 
     res.send({
-      message: typeof response === "string" ? response : "Usuario logueado",
+      message: typeof response === "string" ? response : "User logged in",
       data: typeof response === "string" ? {} : response,
     });
   } catch (error) {

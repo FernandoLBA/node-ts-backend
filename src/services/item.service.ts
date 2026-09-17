@@ -21,7 +21,7 @@ export const getItemService = async (_id: string) => {
 
 export const updateItemService = async (_id: string, body: Car) => {
   const response = await ItemModel.findOneAndUpdate({ _id }, body, {
-    // hace que devuelva el objeto ya actualizado
+    // makes it return the already updated object
     new: true
   });
 

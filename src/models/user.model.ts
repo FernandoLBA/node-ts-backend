@@ -9,7 +9,7 @@ const UserSchema = new Schema<User>(
     },
     description: {
       type: String,
-      default: "Soy la descripción...",
+      default: "I am the description...",
     },
     email: {
       type: String,
@@ -23,10 +23,10 @@ const UserSchema = new Schema<User>(
   },
   {
     timestamps: true,
-    // Esto crea una versión por datos
+    // This creates a version per data change
     versionKey: false,
   }
 );
 
-// Recibe el nombre de la tabla en la BD y el schema
+// Receives the DB table name and the schema
 export const UserModel = model("users", UserSchema);

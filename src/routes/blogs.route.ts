@@ -4,7 +4,7 @@ import { createBlog, deleteBlog, getBlog, getBlogs, updateBlog } from "../contro
 const router = Router();
 
 /**
- * Usa eñ controlador blogs.ts
+ * Uses the blogs.ts controller
  */
 router.get("/", getBlogs);
 router.get("/:id", getBlog);

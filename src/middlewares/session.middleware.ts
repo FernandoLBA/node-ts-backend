@@ -12,9 +12,9 @@ import { tokenSignedChecker, handleHttpError } from "../utils";
  */
 export const sessionMiddleware = async (
   /**
-   * Creé una interface TokenDataRequest que extiende de request, para agregar 2 propiedades al type,
-   * Las cuales me permiten agregar una propiedad "user" al objeto request y poder extraer la
-   * propiedad "email" al verificar el token con el método tokenSignedChecker.
+   * Created a TokenDataRequest interface that extends Request to add 2 properties to the type,
+   * which let us add a "user" property to the request object and extract the
+   * "email" property when verifying the token with the tokenSignedChecker method.
    */
   req: TokenDataRequest,
   res: Response,
@@ -29,7 +29,7 @@ export const sessionMiddleware = async (
       return;
     }
 
-    // Remueve la palabra Bearer del token
+    // Removes the word Bearer from the token
     const token: string = authorization.split(" ").pop() || "";
     const { email } = tokenSignedChecker(token.toString()) as TokenDataRequest;
 

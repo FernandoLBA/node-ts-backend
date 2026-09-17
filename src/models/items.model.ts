@@ -31,12 +31,12 @@ const ItemSchema = new Schema<Car>(
   },
   {
     timestamps: true,
-    // Esto crea una versión por datos
+    // This creates a version per data change
     versionKey: false,
   }
 );
 
-// Recibe el nombre de la tabla en la BD y el schema
+// Receives the DB table name and the schema
 export const ItemModel = model("items", ItemSchema);
 
 // export default ItemModel;

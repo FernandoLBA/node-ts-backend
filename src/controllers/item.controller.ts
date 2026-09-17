@@ -10,7 +10,7 @@ import {
 import { TokenDataRequest } from "../interfaces";
 
 /**
- * Lista todos los items
+ * Lists all items
  * @param req
  * @param res
  */
@@ -18,14 +18,14 @@ export const getItems = async (req: TokenDataRequest, res: Response) => {
   try {
     const data = await getItemsService();
 
-    res.send({ message: "Items listados", data });
+    res.send({ message: "Items listed", data });
   } catch (error: any) {
     handleHttpError(res, "ERROR_GETTING_ITEMS", error);
   }
 };
 
 /**
- * Lista un item por id
+ * Gets an item by id
  * @param req
  * @param res
  */
@@ -40,14 +40,14 @@ export const getItem = async (req: Request, res: Response) => {
       return;
     }
 
-    res.send({ message: "Item listado", data });
+    res.send({ message: "Item found", data });
   } catch (error) {
     handleHttpError(res, "ERROR_GETTING_ITEM", error);
   }
 };
 
 /**
- * Crea un item
+ * Creates an item
  * @param req
  * @param res
  */
@@ -63,7 +63,7 @@ export const createItem = async (req: Request, res: Response) => {
 };
 
 /**
- * Actualiza un item
+ * Updates an item
  * @param req
  * @param res
  */
@@ -73,14 +73,14 @@ export const updateItem = async (req: Request, res: Response) => {
     const { body } = req;
     await updateItemService(id, body);
 
-    res.send({ message: "Item editado...", data: [] });
+    res.send({ message: "Item updated...", data: [] });
   } catch (error) {
     handleHttpError(res, "ERROR_UPDATING_ITEM", error);
   }
 };
 
 /**
- * Elimina un item
+ * Deletes an item
  * @param req
  * @param res
  */
@@ -89,7 +89,7 @@ export const deleteItem = async (req: Request, res: Response) => {
     const { id } = req.params;
     await deleteItemService(id);
 
-    res.send({ message: "Item eliminado", data: [] });
+    res.send({ message: "Item deleted", data: [] });
   } catch (error) {
     handleHttpError(res, "ERROR_DELETING_ITEM", error);
   }

@@ -1,7 +1,7 @@
 import "dotenv/config";
 import mongoose, { connect } from "mongoose";
 
-// remueve el deprecationWarning
+// removes the deprecation warning
 mongoose.set("strictQuery", true);
 
 async function dbConnect(): Promise<void> {

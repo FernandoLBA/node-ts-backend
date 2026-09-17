@@ -12,9 +12,14 @@ app.use(express.json());
 
 app.use("/api", router);
 
-dbConnect().then(() => {
-  console.log("Conexón correcta a mongo")
-})
+dbConnect()
+  .then(() => {
+    console.log("Successfully connected to mongo")
+  })
+  .catch((error) => {
+    console.error("Error connecting to mongo:", error);
+    process.exit(1);
+  })
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

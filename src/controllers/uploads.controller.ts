@@ -4,7 +4,7 @@ import { createFileService } from "../services/uploads.service";
 import { TokenDataRequest, Upload } from "../interfaces";
 
 /**
- * Crea un archivo
+ * Creates a file
  * @param res
  */
 export const createFile = async (
@@ -13,7 +13,7 @@ export const createFile = async (
 ) => {
   try {
     const dataToRegister: Upload = {
-      // Usar template strings te salta el error de si el valor es undefined o null
+      // Using template strings avoids the error when the value is undefined or null
       fileName: `${file?.filename}`,
       email: `${user?.email}`,
       path: `${file?.path}`,
@@ -21,7 +21,7 @@ export const createFile = async (
 
     const data = await createFileService(dataToRegister);
 
-    res.send({ message: "Archivo subido", data });
+    res.send({ message: "File uploaded", data });
   } catch (error) {
     console.log(error);
     handleHttpError(res, "ERROR_UPLOADING_FILE");

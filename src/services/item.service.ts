@@ -29,7 +29,7 @@ export const updateItemService = async (_id: string, body: Car) => {
 };
 
 export const deleteItemService = async (_id: string) => {
-  const response = await ItemModel.remove({ _id });
+  const response = await ItemModel.findOneAndDelete({ _id });
 
   return response;
 };

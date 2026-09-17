@@ -8,10 +8,12 @@ A RESTful API backend built with **Node.js**, **TypeScript**, **Express**, and *
 - **Session middleware** — protects routes by validating the `Authorization: Bearer <token>` header and attaching the authenticated user to the request.
 - **Dynamic route loading** — route modules under `src/routes` are auto-discovered and mounted at startup, so adding a new `*.route.ts` file automatically registers it under `/api/<name>`.
 - **Items CRUD** — full create/read/update/delete API for an "items" (car) resource.
-- **Blogs endpoints** — scaffolded CRUD routes for a blogs resource.
+- **Blogs CRUD** — full create/read/update/delete API for a blogs resource, backed by MongoDB.
 - **Orders** — example of a session-protected endpoint.
 - **File uploads** — authenticated file upload endpoint backed by Multer, with uploaded files persisted under `storage/` and metadata saved to MongoDB.
-- **MongoDB integration** via Mongoose, with schemas for users, items, and uploads.
+- **Request validation** — `express-validator` checks request bodies and Mongo IDs before they reach a controller, returning `422` with details on invalid input.
+- **MongoDB integration** via Mongoose, with schemas for users, items, blogs, and uploads.
+- **Automated tests** — Jest unit tests for services/utils and supertest-based validation tests.
 
 ## Tech Stack
 
@@ -21,10 +23,12 @@ A RESTful API backend built with **Node.js**, **TypeScript**, **Express**, and *
 | HTTP framework | Express         |
 | Database / ODM | MongoDB, Mongoose |
 | Auth           | jsonwebtoken, bcryptjs |
+| Validation     | express-validator |
 | File uploads   | Multer          |
 | CORS           | cors            |
 | Env config     | dotenv          |
 | Dev reload     | nodemon, ts-node |
+| Testing        | Jest, ts-jest, supertest |
 
 ## Project Structure
 
@@ -35,13 +39,18 @@ src/
 │   └── mongo.ts                # MongoDB connection setup
 ├── controllers/                # Request handlers (auth, blogs, items, orders, uploads)
 ├── interfaces/                 # Shared TypeScript types/interfaces
-├── middlewares/                # Express middlewares (session/JWT guard, Multer, logging)
-├── models/                     # Mongoose schemas/models (users, items, uploads)
+├── middlewares/                # Express middlewares (session/JWT guard, Multer, logging, validation)
+├── models/                     # Mongoose schemas/models (users, items, blogs, uploads)
 ├── routes/                     # Route definitions, auto-loaded by src/routes/index.ts
 ├── services/                   # Business logic / data access layer
-└── utils/                      # Helpers (JWT signing/verification, password hashing, error handling)
-storage/                        # Uploaded files are stored here (gitignored)
+├── utils/                      # Helpers (JWT signing/verification, password hashing, error handling)
+└── validators/                 # express-validator rule sets per resource
+storage/                        # Disk destination for files uploaded via Multer
 ```
+
+`*.test.ts` files sit alongside the code they test (e.g. `src/services/item.service.test.ts`) and are excluded from the compiled `dist/` build.
+
+`storage/` holds the actual bytes of files uploaded through `POST /api/uploads`; only their metadata (`fileName`, `path`, `email`) is saved to MongoDB. Its contents are gitignored (`storage/*`), except for a `.gitkeep` placeholder that keeps the empty folder tracked in git.
 
 ## Prerequisites
 
@@ -105,7 +114,7 @@ All routes are mounted under the `/api` prefix.
 }
 ```
 
-> Note: registering a user requires `name` and `email`/`password` (see `User`/`Auth` interfaces). The login response includes a `token` to be used as a Bearer token on protected routes.
+> `name` is required, `email` must be a valid email address, and `password` must be at least 6 characters — invalid requests return `422` with a list of validation errors. The login response includes a `token` to be used as a Bearer token on protected routes.
 
 ### Items — `/api/items`
 
@@ -130,6 +139,8 @@ All routes are mounted under the `/api` prefix.
 }
 ```
 
+> All fields are required, `gas` must be `gasoline` or `electric`, `year` must be a number, and `price` must be a non-negative number. `:id` params must be a valid Mongo ObjectId. Invalid requests return `422`.
+
 ### Blogs — `/api/blogs`
 
 | Method | Endpoint | Description         |
@@ -140,7 +151,17 @@ All routes are mounted under the `/api` prefix.
 | PUT    | `/:id`   | Update a blog           |
 | DELETE | `/:id`   | Delete a blog           |
 
-> This resource is currently scaffolded with placeholder responses (no persistence layer yet).
+**Blog body shape**
+
+```json
+{
+  "title": "string",
+  "content": "string",
+  "author": "string"
+}
+```
+
+> `title`, `content`, and `author` are required on create. `:id` params must be a valid Mongo ObjectId.
 
 ### Orders — `/api/orders`
 
@@ -173,6 +194,7 @@ The token is obtained from the `/api/auth/login` response and is valid for 2 hou
 | `npm run dev`   | Start the server in watch mode with `nodemon` |
 | `npm run build` | Compile TypeScript to the `dist/` folder      |
 | `npm start`     | Run the compiled app from `dist/`             |
+| `npm test`      | Run the Jest test suite                       |
 
 ## License
 

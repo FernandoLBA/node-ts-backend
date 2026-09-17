@@ -1,4 +1,5 @@
 export * from './auth.interface';
+export * from './blog.interface';
 export * from './car.interface';
 export * from './token-data-request.interface';
 export * from './upload.interface';
